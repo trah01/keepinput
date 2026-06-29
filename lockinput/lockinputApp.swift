@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import Darwin
 
 @main
 struct lockinputApp: App {
@@ -22,14 +23,20 @@ struct lockinputApp: App {
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var statusItem: NSStatusItem!
     var popover: NSPopover!
-    var inputManager = InputMethodManager.shared
-    var languageManager = LanguageManager.shared
-    var shortcutManager = GlobalShortcutManager.shared
+    lazy var inputManager = InputMethodManager.shared
+    lazy var languageManager = LanguageManager.shared
+    lazy var shortcutManager = GlobalShortcutManager.shared
+    private let instanceLock = SingleInstanceLock()
     private var settingsWindow: NSWindow?
     private var settingsShortcutMonitor: Any?
     private var cancellables = Set<AnyCancellable>()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        guard instanceLock.acquire() else {
+            NSApp.terminate(nil)
+            return
+        }
+
         shortcutManager.start()
         setupStatusBar()
         setupPopover()
@@ -177,5 +184,38 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
     @objc func quit() {
         NSApp.terminate(nil)
+    }
+}
+
+final class SingleInstanceLock {
+    private var lockFileDescriptor: Int32 = -1
+
+    func acquire() -> Bool {
+        if lockFileDescriptor >= 0 {
+            return true
+        }
+
+        let lockURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent("com.cloudwings.lockinput.instance.lock")
+        let descriptor = Darwin.open(lockURL.path, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR)
+
+        guard descriptor >= 0 else {
+            return false
+        }
+
+        guard flock(descriptor, LOCK_EX | LOCK_NB) == 0 else {
+            Darwin.close(descriptor)
+            return false
+        }
+
+        lockFileDescriptor = descriptor
+        return true
+    }
+
+    deinit {
+        if lockFileDescriptor >= 0 {
+            flock(lockFileDescriptor, LOCK_UN)
+            Darwin.close(lockFileDescriptor)
+        }
     }
 }
