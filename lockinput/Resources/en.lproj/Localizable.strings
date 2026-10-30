@@ -51,3 +51,32 @@
 /* Restore interval */
 "settings.temporaryInputRestoreInterval" = "Restore Delay";
 "settings.secondsFormat" = "%d seconds";
+
+/* Updates */
+"updates.version" = "Version";
+"updates.check" = "Check for Updates";
+"updates.install" = "Download and Restart";
+"updates.checking" = "Checking for updates…";
+"updates.noRelease" = "No release is available yet.";
+"updates.available" = "Version %@ is available.";
+"updates.upToDate" = "You’re up to date.";
+"updates.checkFailed" = "Couldn’t check for updates. Check your connection and try again.";
+"updates.noInstaller" = "No DMG installer is available for this release.";
+"updates.installing" = "Downloading and preparing the update…";
+"updates.moveToApplications" = "Move the app to a writable Applications folder, then try again.";
+"updates.installFailed" = "Couldn’t install the update. Try again or download it from the project homepage.";
+"updates.confirmTitle" = "Install Update";
+"updates.confirmMessage" = "Download version %@ and restart the app to install it?";
+"updates.cancel" = "Cancel";
+
+/* Application visibility and login items */
+"settings.hideMenuBarIcon" = "Hide Menu Bar Icon";
+"settings.loginUnsupported" = "Launch at login requires macOS 13 or later.";
+"settings.loginFailed" = "Couldn’t change launch at login. The switch shows the current system status. Please try again.";
+"settings.loginApprovalRequired" = "Launch at login is not enabled yet. Allow it in System Settings.";
+"settings.openLoginItems" = "Open Login Items Settings";
+
+/* Shortcut recording */
+"settings.shortcutPermissionHint" = "This shortcut needs Accessibility access to work in other apps.";
+"settings.shortcutGrantPermission" = "Allow Shortcut Access";
+"settings.shortcutRecordingHint" = "Press and release the shortcut to save it. Click again to cancel.";

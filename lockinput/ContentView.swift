@@ -16,6 +16,18 @@ enum AppTypography {
     static let caption = Font.system(size: 10)
 }
 
+enum AppColors {
+    static let locked = Color.blue
+    static let temporaryInput = Color.gray
+    static let inactiveStatus = Color.secondary.opacity(0.15)
+    static let popoverBackground = Color(nsColor: NSColor(name: nil) { appearance in
+        appearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua
+            ? NSColor(calibratedWhite: 0.12, alpha: 1)
+            : .white
+    })
+    static let selectedInputBackground = Color.primary.opacity(0.06)
+}
+
 struct ContentView: View {
     @ObservedObject var inputManager = InputMethodManager.shared
     @ObservedObject var languageManager = LanguageManager.shared
@@ -38,6 +50,8 @@ struct ContentView: View {
             quitEntry
         }
         .frame(width: 260)
+        .frame(maxHeight: .infinity)
+        .background(AppColors.popoverBackground.ignoresSafeArea())
     }
 
     var headerView: some View {
@@ -46,15 +60,8 @@ struct ContentView: View {
                 // Lock Status Circle
                 ZStack {
                     Circle()
-                        .fill(
-                            LinearGradient(
-                                colors: statusCircleColors,
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                        )
+                        .fill(statusCircleColor)
                         .frame(width: 28, height: 28)
-                        .shadow(color: statusCircleShadowColor, radius: 3, x: 0, y: 1)
 
                     Image(systemName: statusCircleIconName)
                         .font(.system(size: 12, weight: .bold))
@@ -157,7 +164,7 @@ struct ContentView: View {
             HStack {
                 Label("button.quit".localized(with: languageManager), systemImage: "power")
                     .font(AppTypography.control)
-                    .foregroundColor(.red)
+                    .foregroundColor(.secondary)
                     .lineLimit(1)
 
                 Spacer()
@@ -179,13 +186,13 @@ struct ContentView: View {
             : "status.unlocked".localized(with: languageManager)
     }
 
-    var statusCircleColors: [Color] {
+    var statusCircleColor: Color {
         if inputManager.isTemporarilyActive {
-            return [.blue, .blue.opacity(0.85)]
+            return AppColors.temporaryInput
         }
         return inputManager.isLocked
-            ? [.orange, .orange.opacity(0.85)]
-            : [Color.secondary.opacity(0.18), Color.secondary.opacity(0.12)]
+            ? AppColors.locked
+            : AppColors.inactiveStatus
     }
 
     var statusCircleIconName: String {
@@ -200,13 +207,6 @@ struct ContentView: View {
             return .white
         }
         return .secondary
-    }
-
-    var statusCircleShadowColor: Color {
-        if inputManager.isTemporarilyActive {
-            return .blue.opacity(0.2)
-        }
-        return inputManager.isLocked ? .orange.opacity(0.2) : .clear
     }
 
     var lockedInputSourceName: String {
@@ -266,7 +266,7 @@ struct InputSourceRow: View {
         Button(action: action) {
             HStack {
                 Image(systemName: isLocked ? "lock.fill" : "keyboard")
-                    .foregroundColor(isLocked ? .orange : .secondary)
+                    .foregroundColor(isLocked ? AppColors.locked : .secondary)
                     .frame(width: 20)
 
                 Text(inputManager.getInputSourceName(source))
@@ -279,12 +279,12 @@ struct InputSourceRow: View {
 
                 if isSelected {
                     Image(systemName: "checkmark")
-                        .foregroundColor(.accentColor)
+                        .foregroundColor(.primary)
                 }
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 5)
-            .background(isSelected ? Color.accentColor.opacity(0.12) : Color.clear)
+            .background(isSelected ? AppColors.selectedInputBackground : Color.clear)
             .contentShape(Rectangle())
             .cornerRadius(6)
         }

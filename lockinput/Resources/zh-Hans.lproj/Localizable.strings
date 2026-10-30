@@ -51,3 +51,32 @@
 /* Restore interval */
 "settings.temporaryInputRestoreInterval" = "恢复等待时间";
 "settings.secondsFormat" = "%d 秒";
+
+/* Updates */
+"updates.version" = "当前版本";
+"updates.check" = "检查更新";
+"updates.install" = "下载并重启";
+"updates.checking" = "正在检查更新…";
+"updates.noRelease" = "暂时没有已发布的版本。";
+"updates.available" = "发现新版本 %@。";
+"updates.upToDate" = "已是最新版本。";
+"updates.checkFailed" = "检查失败，请检查网络后重试。";
+"updates.noInstaller" = "此版本暂未提供 DMG 安装包。";
+"updates.installing" = "正在下载并准备更新…";
+"updates.moveToApplications" = "请将应用移到有写入权限的“应用程序”文件夹后重试。";
+"updates.installFailed" = "更新失败，请重试或前往项目主页下载。";
+"updates.confirmTitle" = "安装更新";
+"updates.confirmMessage" = "下载 %@ 版本并重启应用完成安装？";
+"updates.cancel" = "取消";
+
+/* Application visibility and login items */
+"settings.hideMenuBarIcon" = "隐藏菜单栏图标";
+"settings.loginUnsupported" = "开机启动需要 macOS 13 或更高版本。";
+"settings.loginFailed" = "未能更改开机启动，已显示系统当前状态，请重试。";
+"settings.loginApprovalRequired" = "开机启动尚未启用，请在系统登录项设置中允许。";
+"settings.openLoginItems" = "打开登录项设置";
+
+/* Shortcut recording */
+"settings.shortcutPermissionHint" = "此快捷键需要辅助功能权限，才能在其他应用中使用。";
+"settings.shortcutGrantPermission" = "允许快捷键访问";
+"settings.shortcutRecordingHint" = "按下快捷键后松开以保存，再点一次可取消。";

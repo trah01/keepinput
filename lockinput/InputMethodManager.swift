@@ -44,7 +44,6 @@ class InputMethodManager: ObservableObject {
         loadAvailableInputSources()
         updateCurrentInputSourceName()
         setupInputSourceChangeObservers()
-        restorePreviousLockStateIfNeeded()
     }
 
     deinit {
@@ -121,6 +120,8 @@ class InputMethodManager: ObservableObject {
 
     @discardableResult
     func selectInputSource(_ source: TISInputSource) -> Bool {
+        // Let macOS control the keyboard layout while a secure field is active.
+        guard !IsSecureEventInputEnabled() else { return false }
         let result = TISSelectInputSource(source)
         updateCurrentInputSourceName()
         return result == noErr
@@ -257,7 +258,12 @@ class InputMethodManager: ObservableObject {
         startEnforcementTimer()
     }
 
-    private func restorePreviousLockStateIfNeeded() {
+    func restorePreviousLockStateIfNeeded() {
+        guard !lockState.isLocked else {
+            enforceLockedInputSource()
+            return
+        }
+
         guard UserDefaults.standard.bool(forKey: DefaultsKey.restorePreviousLockState),
               let sourceID = UserDefaults.standard.string(forKey: DefaultsKey.previousLockedInputSourceID),
               !sourceID.isEmpty else {
@@ -296,7 +302,7 @@ class InputMethodManager: ObservableObject {
 
     private func enforceLockedInputSource() {
         guard lockState.isLocked, !isEnforcingLockedSource else { return }
-        guard !isTemporarilyActive else { return }
+        guard !isTemporarilyActive, !IsSecureEventInputEnabled() else { return }
         guard let lockedInputSourceID = lockState.lockedInputSourceID else { return }
         guard let currentSource = getCurrentInputSource() else { return }
         guard let lockedSource = inputSource(withID: lockedInputSourceID) else { return }
@@ -337,10 +343,10 @@ class InputMethodManager: ObservableObject {
         isEnforcingLockedSource = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) { [weak self] in
             guard let self else { return }
-            guard self.lockState.matchesLockedInputSourceID(lockedInputSourceID) else {
-                self.isEnforcingLockedSource = false
-                return
-            }
+            defer { self.isEnforcingLockedSource = false }
+            guard self.lockState.matchesLockedInputSourceID(lockedInputSourceID),
+                  !self.isTemporarilyActive,
+                  !IsSecureEventInputEnabled() else { return }
 
             if !self.selectInputSource(source),
                let refreshedSource = self.inputSource(withID: sourceID) {
@@ -348,7 +354,6 @@ class InputMethodManager: ObservableObject {
             }
 
             self.refreshLockedInputSource()
-            self.isEnforcingLockedSource = false
         }
     }
 

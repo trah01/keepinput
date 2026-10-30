@@ -9,13 +9,15 @@ InputLock est une application légère pour la barre de menus de macOS. Elle ver
 ## Fonctionnalités
 
 - Verrouille la méthode de saisie active et la rétablit si une autre source devient active
-- Prend en charge un raccourci personnalisé pour passer temporairement à une saisie choisie et rétablir la source verrouillée après 5 s d'inactivité
-- Prend en charge Globe, Caps Lock, Shift et les combinaisons classiques comme raccourci temporaire
+- Bascule temporairement vers la saisie choisie et rétablit le verrouillage après 1 à 60 s d’inactivité, 5 s par défaut
+- Accepte les touches seules, les touches de fonction, Globe, Caps Lock, Shift, Option, Control, Command et leurs combinaisons
 - Fournit une fenêtre de réglages accessible depuis le panneau de barre de menus, le menu contextuel ou `Command + ,`
-- Fonctionne dans la barre de menus, sans icône dans le Dock
+- Permet de masquer l’icône de la barre de menus ; relancer l’app ouvre les réglages
 - Clic gauche pour ouvrir le panneau des méthodes de saisie ; clic droit pour les actions rapides
 - Prend en charge English, 简体中文, Français, Deutsch et 日本語
-- Prend en charge le lancement à l'ouverture de session et la restauration du dernier verrouillage après redémarrage
+- Affiche l’état réel du lancement à l’ouverture de session et restaure le verrouillage après redémarrage
+- Suspend le verrouillage pendant la saisie sécurisée d’un mot de passe
+- Recherche les mises à jour GitHub Releases, puis les télécharge et redémarre pour les installer
 
 ## Prérequis
 
@@ -26,8 +28,8 @@ InputLock est une application légère pour la barre de menus de macOS. Elle ver
 
 Installation recommandée depuis GitHub Releases :
 
-1. Ouvrez la page [Releases](https://github.com/trah01/inputlock-extend/releases).
-2. Téléchargez le dernier fichier `InputLock-1.2.dmg`.
+1. Ouvrez la page [Releases](https://github.com/trah01/keepinput/releases).
+2. Téléchargez le dernier fichier `InputLock-1.3.dmg`.
 3. Ouvrez le DMG et faites glisser `lockinput.app` vers `Applications`.
 4. Lancez InputLock depuis `Applications`.
 
@@ -37,10 +39,14 @@ La version actuelle n'est pas notariée par Apple. Si macOS bloque le premier la
 
 - Clic gauche sur l'icône de verrouillage dans la barre de menus : ouvrir le panneau principal
 - Clic droit sur l'icône : ouvrir le menu d'actions rapides
-- Clic sur une méthode de saisie : basculer vers cette méthode et la verrouiller
+- Clic sur une méthode de saisie : basculer directement sans verrouillage actif, ou temporairement si le verrouillage est actif
 - Bouton Verrouiller / Déverrouiller : verrouiller la source active ou libérer le verrou
 - Ouvrez les réglages depuis le bas du panneau principal ou avec `Command + ,`
-- Configurez le raccourci temporaire et la saisie cible dans les réglages ; après 5 s d'inactivité, l'app rétablit la source verrouillée, sinon elle ne change rien
+- Choisissez le raccourci, la saisie cible et le délai d’inactivité. Appuyez à nouveau sur le raccourci pour rétablir immédiatement le verrouillage
+- Pour enregistrer, appuyez sur une touche ou relâchez une combinaison de modificateurs. Cliquez à nouveau pour annuler, sur × pour effacer. Escape et Delete sont acceptés
+- Autorisez l’accès Accessibilité si demandé. Les combinaisons réservées par macOS peuvent aussi déclencher leur action système
+- Masquez l’icône de la barre de menus dans les réglages ; relancez l’app pour les rouvrir
+- Recherchez les mises à jour dans À propos, puis téléchargez et redémarrez pour installer
 - Changez la langue de l'interface dans les réglages
 - Option de lancement à l'ouverture de session : démarrer l'application automatiquement sous macOS 13.0+
 - Option de restauration après redémarrage : restaurer la dernière saisie verrouillée au prochain lancement
@@ -48,8 +54,8 @@ La version actuelle n'est pas notariée par Apple. Si macOS bloque le premier la
 ## Exécuter depuis le code source
 
 ```bash
-git clone https://github.com/trah01/inputlock-extend.git
-cd inputlock
+git clone https://github.com/trah01/keepinput.git
+cd keepinput
 open lockinput.xcodeproj
 ```
 
@@ -82,8 +88,14 @@ Créez le DMG :
 Le fichier généré est :
 
 ```text
-InputLock-1.2.dmg
+InputLock-1.3.dmg
 ```
+
+## Compilation et publication automatiques
+
+Le workflow [.github/workflows/release.yml](.github/workflows/release.yml) se lance lors de l’envoi d’un tag `v1.3` ou `v1.3.1`, ou depuis Actions → Build and Release → Run workflow. Le lancement manuel accepte un numéro avec ou sans `v`. Un tag existant doit correspondre au code sélectionné.
+
+Il compile une app universelle Apple Silicon et Intel, applique une signature ad-hoc et publie `InputLock-<version>.dmg` et son fichier `.sha256` dans GitHub Releases. La version de l’app suit le tag sans `v` ; le lancement manuel crée le tag si nécessaire. Aucun certificat Apple n’est requis ; le paquet n’est pas notarié.
 
 ## Structure du projet
 

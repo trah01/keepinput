@@ -51,3 +51,32 @@
 /* Restore interval */
 "settings.temporaryInputRestoreInterval" = "Wiederherstellung-Dauer";
 "settings.secondsFormat" = "%d Sekunden";
+
+/* Updates */
+"updates.version" = "Version";
+"updates.check" = "Nach Updates suchen";
+"updates.install" = "Laden und neu starten";
+"updates.checking" = "Suche nach Updates…";
+"updates.noRelease" = "Es wurde noch keine Version veröffentlicht.";
+"updates.available" = "Version %@ ist verfügbar.";
+"updates.upToDate" = "Die App ist auf dem neuesten Stand.";
+"updates.checkFailed" = "Suche fehlgeschlagen. Prüfen Sie die Verbindung und versuchen Sie es erneut.";
+"updates.noInstaller" = "Für diese Version ist kein DMG-Installationspaket verfügbar.";
+"updates.installing" = "Update wird geladen und vorbereitet…";
+"updates.moveToApplications" = "Verschieben Sie die App in einen beschreibbaren Programme-Ordner und versuchen Sie es erneut.";
+"updates.installFailed" = "Installation fehlgeschlagen. Versuchen Sie es erneut oder laden Sie das Update von der Projektseite.";
+"updates.confirmTitle" = "Update installieren";
+"updates.confirmMessage" = "Version %@ laden und die App zur Installation neu starten?";
+"updates.cancel" = "Abbrechen";
+
+/* Application visibility and login items */
+"settings.hideMenuBarIcon" = "Symbol in der Menüleiste ausblenden";
+"settings.loginUnsupported" = "Der Start bei Anmeldung erfordert macOS 13 oder neuer.";
+"settings.loginFailed" = "Änderung fehlgeschlagen. Der Schalter zeigt den aktuellen Systemstatus. Versuchen Sie es erneut.";
+"settings.loginApprovalRequired" = "Der Start bei Anmeldung ist noch nicht aktiviert. Erlauben Sie ihn in den Systemeinstellungen.";
+"settings.openLoginItems" = "Anmeldeobjekte öffnen";
+
+/* Shortcut recording */
+"settings.shortcutPermissionHint" = "Dieser Kurzbefehl benötigt Bedienungshilfen-Zugriff, um in anderen Apps zu funktionieren.";
+"settings.shortcutGrantPermission" = "Kurzbefehlzugriff erlauben";
+"settings.shortcutRecordingHint" = "Tasten drücken und loslassen, um zu speichern. Erneut klicken, um abzubrechen.";

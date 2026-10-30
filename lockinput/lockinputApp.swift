@@ -20,7 +20,8 @@ struct lockinputApp: App {
     }
 }
 
-class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate {
+    private static let showSettingsNotification = Notification.Name("com.cloudwings.lockinput.showSettings")
     var statusItem: NSStatusItem!
     var popover: NSPopover!
     lazy var inputManager = InputMethodManager.shared
@@ -29,12 +30,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     private let instanceLock = SingleInstanceLock()
     private var settingsWindow: NSWindow?
     private var settingsShortcutMonitor: Any?
+    private var settingsRequestObserver: NSObjectProtocol?
     private var cancellables = Set<AnyCancellable>()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         guard instanceLock.acquire() else {
+            DistributedNotificationCenter.default().postNotificationName(
+                Self.showSettingsNotification, object: nil, userInfo: nil, deliverImmediately: true
+            )
             NSApp.terminate(nil)
             return
+        }
+
+        settingsRequestObserver = DistributedNotificationCenter.default().addObserver(
+            forName: Self.showSettingsNotification, object: nil, queue: .main
+        ) { [weak self] _ in
+            self?.openSettings()
         }
 
         shortcutManager.start()
@@ -43,9 +54,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         setupSettingsShortcut()
 
         NSApp.setActivationPolicy(.accessory)
+
+        // Settings scenes can create InputMethodManager before the app has
+        // finished launching. Restore after launch so Carbon input sources are
+        // ready when the saved lock is enforced.
+        DispatchQueue.main.async { [weak self] in
+            self?.inputManager.restorePreviousLockStateIfNeeded()
+            if MenuBarIconManager.shared.isHidden {
+                self?.openSettings()
+            }
+        }
     }
 
     func applicationWillTerminate(_ notification: Notification) {
+        if let settingsRequestObserver {
+            DistributedNotificationCenter.default().removeObserver(settingsRequestObserver)
+        }
         if let settingsShortcutMonitor {
             NSEvent.removeMonitor(settingsShortcutMonitor)
             self.settingsShortcutMonitor = nil
@@ -54,6 +78,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
     func setupStatusBar() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        MenuBarIconManager.shared.$isHidden.sink { [weak self] isHidden in
+            self?.statusItem.isVisible = !isHidden
+        }.store(in: &cancellables)
 
         if let button = statusItem.button {
             button.imagePosition = .imageOnly
@@ -89,6 +116,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
     func setupSettingsShortcut() {
         settingsShortcutMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            guard self?.shortcutManager.isRecording != true else { return event }
             let flags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
             if event.keyCode == 43, flags == .command {
                 self?.openSettings()
@@ -166,20 +194,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             window.contentView = hostingView
             window.isReleasedWhenClosed = false
             window.center()
-            window.delegate = self
             settingsWindow = window
         }
 
-        NSApp.setActivationPolicy(.regular)
         settingsWindow?.title = "settings.title".localized(with: languageManager)
         settingsWindow?.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
 
-    func windowWillClose(_ notification: Notification) {
-        if let window = notification.object as? NSWindow, window == settingsWindow {
-            NSApp.setActivationPolicy(.accessory)
-        }
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        openSettings()
+        return true
     }
 
     @objc func quit() {

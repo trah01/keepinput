@@ -9,13 +9,15 @@ InputLock ist eine schlanke macOS-Menüleisten-App. Sie sperrt die aktuelle Eing
 ## Funktionen
 
 - Sperrt die aktuelle Eingabemethode und stellt sie wieder her, wenn eine andere Quelle aktiv wird
-- Unterstützt einen eigenen Kurzbefehl, der temporär zu einer gewählten Eingabe wechselt und nach 5 s Leerlauf die gesperrte Eingabe wiederherstellt
-- Unterstützt Globe, Caps Lock, Shift und normale Tastenkombinationen als temporären Wechselkurzbefehl
+- Wechselt vorübergehend zur gewählten Eingabe und stellt die Sperre nach 1–60 Sekunden Leerlauf wieder her, standardmäßig nach 5 Sekunden
+- Unterstützt einzelne Tasten, Funktionstasten, Globe, Caps Lock, Shift, Option, Control, Command und deren Kombinationen
 - Bietet ein eigenes Einstellungsfenster über das Menüleistenfenster, das Kontextmenü oder `Command + ,`
-- Läuft in der Menüleiste, ohne Dock-Symbol
+- Das Menüleistensymbol lässt sich ausblenden; erneutes Starten öffnet die Einstellungen
 - Linksklick öffnet die Eingabequellenliste; Rechtsklick öffnet Schnellaktionen
 - Unterstützt English, 简体中文, Français, Deutsch und 日本語
-- Unterstützt Start bei der Anmeldung und Wiederherstellung der letzten Sperre nach einem Neustart
+- Zeigt den tatsächlichen Systemstatus für den Start bei Anmeldung und stellt die letzte Sperre wieder her
+- Pausiert die Sperre bei sicherer Passworteingabe
+- Sucht Updates in GitHub Releases und lädt und installiert sie mit anschließendem Neustart
 
 ## Voraussetzungen
 
@@ -26,8 +28,8 @@ InputLock ist eine schlanke macOS-Menüleisten-App. Sie sperrt die aktuelle Eing
 
 Empfohlene Installation über GitHub Releases:
 
-1. Öffnen Sie die Seite [Releases](https://github.com/trah01/inputlock-extend/releases).
-2. Laden Sie die aktuelle Datei `InputLock-1.2.dmg` herunter.
+1. Öffnen Sie die Seite [Releases](https://github.com/trah01/keepinput/releases).
+2. Laden Sie die aktuelle Datei `InputLock-1.3.dmg` herunter.
 3. Öffnen Sie die DMG-Datei und ziehen Sie `lockinput.app` in `Applications`.
 4. Starten Sie InputLock aus `Applications`.
 
@@ -37,10 +39,14 @@ Die aktuelle Veröffentlichung ist nicht von Apple notarisiert. Wenn macOS den e
 
 - Linksklick auf das Schloss-Symbol in der Menüleiste: Hauptfenster öffnen
 - Rechtsklick auf das Schloss-Symbol: Schnellaktionsmenü öffnen
-- Klick auf eine Eingabemethode: zu dieser Methode wechseln und sie sperren
+- Klick auf eine Eingabemethode: direkt wechseln, wenn entsperrt, andernfalls vorübergehend wechseln
 - Schaltfläche Sperren / Entsperren: aktuelle Quelle sperren oder Sperre aufheben
 - Einstellungen unten im Hauptfenster oder mit `Command + ,` öffnen
-- Den temporären Wechselkurzbefehl und die Ziel-Eingabe in den Einstellungen festlegen; nach 5 s Leerlauf stellt die App die gesperrte Eingabe wieder her, andernfalls bleibt sie unverändert
+- Kurzbefehl, Zieleingabe und Wartezeit einstellen. Erneutes Drücken stellt die Sperre sofort wieder her
+- Zum Aufzeichnen eine Taste drücken oder eine Kombination aus Modifikatortasten loslassen. Erneut klicken zum Abbrechen, × zum Löschen. Escape und Delete sind ebenfalls möglich
+- Bei Bedarf Zugriff auf Bedienungshilfen erlauben. Von macOS reservierte Kombinationen können zusätzlich ihre Systemaktion auslösen
+- Menüleistensymbol in den Einstellungen ausblenden; erneutes Starten öffnet die Einstellungen wieder
+- Unter Über nach Updates suchen und zum Installieren herunterladen und neu starten
 - Sprache der Oberfläche in den Einstellungen wechseln
 - Start bei der Anmeldung aktivieren: App unter macOS 13.0+ automatisch nach der Anmeldung starten
 - Letzte Sperre nach Neustart wiederherstellen aktivieren: Beim nächsten App-Start wird die zuletzt gesperrte Eingabe wiederhergestellt
@@ -48,8 +54,8 @@ Die aktuelle Veröffentlichung ist nicht von Apple notarisiert. Wenn macOS den e
 ## Aus dem Quellcode ausführen
 
 ```bash
-git clone https://github.com/trah01/inputlock-extend.git
-cd inputlock
+git clone https://github.com/trah01/keepinput.git
+cd keepinput
 open lockinput.xcodeproj
 ```
 
@@ -82,8 +88,14 @@ DMG erstellen:
 Die erzeugte Datei ist:
 
 ```text
-InputLock-1.2.dmg
+InputLock-1.3.dmg
 ```
+
+## Automatisch kompilieren und veröffentlichen
+
+Der Workflow [.github/workflows/release.yml](.github/workflows/release.yml) startet beim Push eines Tags wie `v1.3` oder `v1.3.1` sowie über Actions → Build and Release → Run workflow. Manuelle Ausführungen akzeptieren Versionen mit oder ohne `v`. Ein vorhandener Tag muss zum ausgewählten Quellcode passen.
+
+Er erstellt eine universelle App für Apple Silicon und Intel, signiert sie ad-hoc und veröffentlicht `InputLock-<Version>.dmg` und die `.sha256`-Prüfsumme in GitHub Releases. Die App-Version entspricht dem Tag ohne `v`; bei manuellen Veröffentlichungen wird der Tag bei Bedarf erstellt. Ein Apple-Zertifikat ist nicht erforderlich; das Paket ist nicht notarisiert.
 
 ## Projektstruktur
 

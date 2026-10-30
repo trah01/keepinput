@@ -51,3 +51,32 @@
 /* Restore interval */
 "settings.temporaryInputRestoreInterval" = "復元までの遅延時間";
 "settings.secondsFormat" = "%d 秒";
+
+/* Updates */
+"updates.version" = "現在のバージョン";
+"updates.check" = "アップデートを確認";
+"updates.install" = "ダウンロードして再起動";
+"updates.checking" = "アップデートを確認中…";
+"updates.noRelease" = "公開されたバージョンはまだありません。";
+"updates.available" = "新しいバージョン %@ があります。";
+"updates.upToDate" = "最新バージョンです。";
+"updates.checkFailed" = "確認できませんでした。接続を確認して再試行してください。";
+"updates.noInstaller" = "このバージョンには DMG インストーラがありません。";
+"updates.installing" = "アップデートをダウンロードして準備中…";
+"updates.moveToApplications" = "書き込み可能な「アプリケーション」フォルダに移動してから再試行してください。";
+"updates.installFailed" = "インストールできませんでした。再試行するか、プロジェクトページからダウンロードしてください。";
+"updates.confirmTitle" = "アップデートをインストール";
+"updates.confirmMessage" = "バージョン %@ をダウンロードし、アプリを再起動してインストールしますか？";
+"updates.cancel" = "キャンセル";
+
+/* Application visibility and login items */
+"settings.hideMenuBarIcon" = "メニューバーのアイコンを隠す";
+"settings.loginUnsupported" = "ログイン時の起動には macOS 13 以降が必要です。";
+"settings.loginFailed" = "設定を変更できませんでした。スイッチはシステムの現在の状態を示しています。再試行してください。";
+"settings.loginApprovalRequired" = "ログイン時の起動はまだ有効ではありません。システム設定で許可してください。";
+"settings.openLoginItems" = "ログイン項目の設定を開く";
+
+/* Shortcut recording */
+"settings.shortcutPermissionHint" = "他のアプリでこのショートカットを使うには、アクセシビリティの許可が必要です。";
+"settings.shortcutGrantPermission" = "ショートカットのアクセスを許可";
+"settings.shortcutRecordingHint" = "キーを押して離すと保存します。もう一度クリックするとキャンセルします。";
