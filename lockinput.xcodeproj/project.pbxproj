@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		554963942EF58F5F00D8D8BE /* lockinput.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lockinput.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		554963942EF58F5F00D8D8BE /* keepinput.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = keepinput.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -53,7 +53,7 @@
 		554963952EF58F5F00D8D8BE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				554963942EF58F5F00D8D8BE /* lockinput.app */,
+				554963942EF58F5F00D8D8BE /* keepinput.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -79,8 +79,8 @@
 			name = lockinput;
 			packageProductDependencies = (
 			);
-			productName = lockinput;
-			productReference = 554963942EF58F5F00D8D8BE /* lockinput.app */;
+			productName = keepinput;
+			productReference = 554963942EF58F5F00D8D8BE /* keepinput.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -289,7 +289,7 @@
 				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cloudwings.lockinput;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = keepinput;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -323,7 +323,7 @@
 				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cloudwings.lockinput;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = keepinput;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;

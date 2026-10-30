@@ -40,7 +40,7 @@ final class UpdateManager: ObservableObject {
             request.timeoutInterval = 20
             request.cachePolicy = .reloadIgnoringLocalCacheData
             request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
-            request.setValue("InputLock/\(Self.currentVersion)", forHTTPHeaderField: "User-Agent")
+            request.setValue("keepinput/\(Self.currentVersion)", forHTTPHeaderField: "User-Agent")
             let (data, response) = try await URLSession.shared.data(for: request)
             if (response as? HTTPURLResponse)?.statusCode == 404 {
                 statusKey = "updates.noRelease"
@@ -162,7 +162,7 @@ private enum UpdateInstaller {
 
         // Stage on the same volume so replacement and rollback use atomic renames.
         let stage = appURL.deletingLastPathComponent()
-            .appendingPathComponent(".InputLock-update-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent(".keepinput-update-\(UUID().uuidString)", isDirectory: true)
         try files.createDirectory(at: stage, withIntermediateDirectories: false)
         var helperStarted = false
         defer { if !helperStarted { try? files.removeItem(at: stage) } }
@@ -194,7 +194,7 @@ private enum UpdateInstaller {
         """
         let helper = Process()
         helper.executableURL = URL(fileURLWithPath: "/bin/sh")
-        helper.arguments = ["-c", script, "inputlock-update", String(ProcessInfo.processInfo.processIdentifier), appURL.path, stage.path]
+        helper.arguments = ["-c", script, "keepinput-update", String(ProcessInfo.processInfo.processIdentifier), appURL.path, stage.path]
         helper.standardInput = FileHandle.nullDevice
         helper.standardOutput = FileHandle.nullDevice
         helper.standardError = FileHandle.nullDevice

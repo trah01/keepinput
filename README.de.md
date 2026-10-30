@@ -1,10 +1,10 @@
-# KeepInput
+# keepinput
 
 Standard-README: [简体中文](README.md)
 
 Weitere Sprachen: [English](README.en.md) | [Français](README.fr.md) | Deutsch | [日本語](README.ja.md)
 
-InputLock ist eine schlanke macOS-Menüleisten-App. Sie sperrt die aktuelle Eingabemethode und verhindert so versehentliche Wechsel beim Schreiben, Programmieren oder Wechseln zwischen Apps.
+keepinput ist eine schlanke macOS-Menüleisten-App. Sie sperrt die aktuelle Eingabemethode und verhindert so versehentliche Wechsel beim Schreiben, Programmieren oder Wechseln zwischen Apps.
 
 ## Funktionen
 
@@ -29,14 +29,14 @@ InputLock ist eine schlanke macOS-Menüleisten-App. Sie sperrt die aktuelle Eing
 Empfohlene Installation über GitHub Releases:
 
 1. Öffnen Sie die Seite [Releases](https://github.com/trah01/keepinput/releases).
-2. Laden Sie die aktuelle Datei `InputLock-1.3.dmg` herunter.
-3. Öffnen Sie die DMG-Datei und ziehen Sie `lockinput.app` in `Applications`.
-4. Starten Sie InputLock aus `Applications`.
+2. Laden Sie die aktuelle Datei `keepinput-1.3.dmg` herunter.
+3. Öffnen Sie die DMG-Datei und ziehen Sie `keepinput.app` in `Applications`.
+4. Starten Sie keepinput aus `Applications`.
 
 Die Pakete werden lokal ad-hoc signiert und sind nicht von Apple notarisiert. Wenn macOS den ersten Start blockiert, erlauben Sie die App unter Systemeinstellungen > Datenschutz & Sicherheit. Prüfen Sie, dass das Paket aus den Releases dieses Projekts stammt, und verschieben Sie die App nach Programme. Alternativ können Sie danach Folgendes ausführen:
 
 ```bash
-xattr -dr com.apple.quarantine /Applications/lockinput.app
+xattr -dr com.apple.quarantine /Applications/keepinput.app
 ```
 
 Öffnen Sie die App erneut. Passen Sie bei Bedarf den Pfad an; verwenden Sie `sudo` nur bei fehlenden Zugriffsrechten.
@@ -94,14 +94,14 @@ DMG erstellen:
 Die erzeugte Datei ist:
 
 ```text
-InputLock-1.3.dmg
+keepinput-1.3.dmg
 ```
 
 ## Automatisch kompilieren und veröffentlichen
 
 Der Workflow [.github/workflows/release.yml](.github/workflows/release.yml) startet beim Push eines Tags wie `v1.3` oder `v1.3.1` sowie über Actions → Build and Release → Run workflow. Manuelle Ausführungen akzeptieren Versionen mit oder ohne `v`. Bei vorhandenen Versionen wird automatisch der Quellcode des Tags ausgecheckt, um das Paket erneut zu erstellen und hochzuladen.
 
-Er erstellt eine universelle App für Apple Silicon und Intel, signiert sie ad-hoc und veröffentlicht `InputLock-<Version>.dmg` und die `.sha256`-Prüfsumme in GitHub Releases. Die App-Version entspricht dem Tag ohne `v`; bei manuellen Veröffentlichungen wird der Tag bei Bedarf erstellt. Ein Apple-Zertifikat ist nicht erforderlich; das Paket ist nicht notarisiert.
+Er erstellt eine universelle App für Apple Silicon und Intel, signiert sie ad-hoc und veröffentlicht `keepinput-<Version>.dmg` und die `.sha256`-Prüfsumme in GitHub Releases. Die App-Version entspricht dem Tag ohne `v`; bei manuellen Veröffentlichungen wird der Tag bei Bedarf erstellt. Ein Apple-Zertifikat ist nicht erforderlich; das Paket ist nicht notarisiert.
 
 ## Projektstruktur
 

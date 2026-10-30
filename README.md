@@ -1,10 +1,10 @@
-# KeepInput
+# keepinput
 
 默认语言：简体中文
 
 其他语言： [English](README.en.md) | [Français](README.fr.md) | [Deutsch](README.de.md) | [日本語](README.ja.md)
 
-KeepInput 是一个轻量级 macOS 菜单栏应用，用于锁定当前输入法，减少在写作、编程或跨应用切换时误触切换输入法的问题。
+keepinput 是一个轻量级 macOS 菜单栏应用，用于锁定当前输入法，减少在写作、编程或跨应用切换时误触切换输入法的问题。
 
 本仓库基于 [bigccc/inputlock](https://github.com/bigccc/inputlock) 进行扩展
 
@@ -32,14 +32,14 @@ KeepInput 是一个轻量级 macOS 菜单栏应用，用于锁定当前输入法
 推荐从 GitHub Release 安装：
 
 1. 打开 [Releases](https://github.com/trah01/keepinput/releases) 页面。
-2. 下载最新的 `InputLock-1.3.dmg`。
-3. 打开 DMG，把 `lockinput.app` 拖到 `Applications` 文件夹。
-4. 从 `Applications` 启动 InputLock。
+2. 下载最新的 `keepinput-1.3.dmg`。
+3. 打开 DMG，把 `keepinput.app` 拖到 `Applications` 文件夹。
+4. 从 `Applications` 启动 keepinput。
 
 安装包使用本地 ad-hoc 签名，未经过 Apple 公证。如果首次启动被 macOS 拦截，可在“系统设置 > 隐私与安全性”中允许打开。确认安装包来自本项目 Releases，并已拖入“应用程序”后，也可在终端执行：
 
 ```bash
-xattr -dr com.apple.quarantine /Applications/lockinput.app
+xattr -dr com.apple.quarantine /Applications/keepinput.app
 ```
 
 然后重新打开应用。如果安装在其他位置，请替换命令中的路径；提示权限不足时再在命令前加 `sudo`。
@@ -112,7 +112,7 @@ xcodebuild -project lockinput.xcodeproj \
 生成的文件为：
 
 ```text
-InputLock-1.3.dmg
+keepinput-1.3.dmg
 ```
 
 ## 自动编译与发布
@@ -122,7 +122,7 @@ InputLock-1.3.dmg
 - 推送版本标签，例如 `v1.3`、`v1.3.1`。
 - 在 GitHub 的 Actions → Build and Release → Run workflow 中选择分支或标签，填写版本号；手动触发接受 `v1.3` 或 `1.3`。已有标签会自动检出该标签对应的代码，用于重新编译和上传安装包。
 
-工作流编译 Apple Silicon 与 Intel 通用应用，采用 ad-hoc 签名，生成 `InputLock-<版本>.dmg` 和 `.sha256` 校验文件，并发布到同名 GitHub Release。应用内版本号取自标签，不含 `v` 前缀；手动发布新版本时会创建对应标签。无需配置 Apple 开发者证书，安装包不经过公证。
+工作流编译 Apple Silicon 与 Intel 通用应用，采用 ad-hoc 签名，生成 `keepinput-<版本>.dmg` 和 `.sha256` 校验文件，并发布到同名 GitHub Release。应用内版本号取自标签，不含 `v` 前缀；手动发布新版本时会创建对应标签。无需配置 Apple 开发者证书，安装包不经过公证。
 
 ## 项目结构
 

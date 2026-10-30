@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# InputLock DMG 打包脚本
+# keepinput DMG 打包脚本
 # 用法: ./scripts/create-dmg.sh
 
 set -e
 
-APP_NAME="InputLock"
-DMG_NAME="InputLock"
+APP_NAME="keepinput"
+DMG_NAME="$APP_NAME"
 VERSION="1.3"
 BUILD_DIR="build/Build/Products/Release"
-APP_PATH="$BUILD_DIR/lockinput.app"
+APP_PATH="$BUILD_DIR/$APP_NAME.app"
 DMG_PATH="$DMG_NAME-$VERSION.dmg"
 TEMP_DMG="temp_$DMG_NAME.dmg"
 VOLUME_NAME="$APP_NAME $VERSION"
@@ -61,7 +61,7 @@ tell application "Finder"
         set viewOptions to the icon view options of container window
         set arrangement of viewOptions to not arranged
         set icon size of viewOptions to 100
-        set position of item "lockinput.app" of container window to {150, 200}
+        set position of item "$APP_NAME.app" of container window to {150, 200}
         set position of item "Applications" of container window to {450, 200}
         close
         open

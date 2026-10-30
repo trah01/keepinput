@@ -1,10 +1,10 @@
-# KeepInput
+# keepinput
 
 Default README: [简体中文](README.md)
 
 Other languages: English | [Français](README.fr.md) | [Deutsch](README.de.md) | [日本語](README.ja.md)
 
-InputLock is a lightweight macOS menu bar app that locks the current input method and helps prevent accidental input source switching while writing, coding, or moving between apps.
+keepinput is a lightweight macOS menu bar app that locks the current input method and helps prevent accidental input source switching while writing, coding, or moving between apps.
 
 ## Features
 
@@ -29,14 +29,14 @@ InputLock is a lightweight macOS menu bar app that locks the current input metho
 Install from GitHub Releases:
 
 1. Open the [Releases](https://github.com/trah01/keepinput/releases) page.
-2. Download the latest `InputLock-1.3.dmg`.
-3. Open the DMG and drag `lockinput.app` to `Applications`.
-4. Launch InputLock from `Applications`.
+2. Download the latest `keepinput-1.3.dmg`.
+3. Open the DMG and drag `keepinput.app` to `Applications`.
+4. Launch keepinput from `Applications`.
 
 Packages use local ad-hoc signing and are not Apple-notarized. If macOS blocks the first launch, allow the app in System Settings > Privacy & Security. After verifying that the installer came from this project’s Releases and moving the app to Applications, you can also run:
 
 ```bash
-xattr -dr com.apple.quarantine /Applications/lockinput.app
+xattr -dr com.apple.quarantine /Applications/keepinput.app
 ```
 
 Then open the app again. Adjust the path if installed elsewhere; add `sudo` only if permissions are denied.
@@ -98,14 +98,14 @@ Create the DMG:
 The generated file is:
 
 ```text
-InputLock-1.3.dmg
+keepinput-1.3.dmg
 ```
 
 ## Automated Builds and Releases
 
 [.github/workflows/release.yml](.github/workflows/release.yml) runs when you push a version tag such as `v1.3` or `v1.3.1`, or choose Actions → Build and Release → Run workflow. Manual runs accept versions with or without `v`; existing versions automatically check out their tagged source to rebuild and upload the installer.
 
-The workflow builds a universal Apple Silicon and Intel app, applies ad-hoc signing, and publishes `InputLock-<version>.dmg` and its `.sha256` checksum to the matching GitHub Release. The app version follows the tag without its `v` prefix. Manual releases create the tag if necessary. No Apple developer certificate is required; packages are not notarized.
+The workflow builds a universal Apple Silicon and Intel app, applies ad-hoc signing, and publishes `keepinput-<version>.dmg` and its `.sha256` checksum to the matching GitHub Release. The app version follows the tag without its `v` prefix. Manual releases create the tag if necessary. No Apple developer certificate is required; packages are not notarized.
 
 ## Project Structure
 

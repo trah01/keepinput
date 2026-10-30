@@ -1,10 +1,10 @@
-# KeepInput
+# keepinput
 
 既定の README: [简体中文](README.md)
 
 他の言語: [English](README.en.md) | [Français](README.fr.md) | [Deutsch](README.de.md) | 日本語
 
-InputLock は、現在の入力方式を固定する軽量な macOS メニューバーアプリです。文章作成、開発作業、アプリ間の移動中に入力方式が誤って切り替わることを減らします。
+keepinput は、現在の入力方式を固定する軽量な macOS メニューバーアプリです。文章作成、開発作業、アプリ間の移動中に入力方式が誤って切り替わることを減らします。
 
 ## 機能
 
@@ -29,14 +29,14 @@ InputLock は、現在の入力方式を固定する軽量な macOS メニュー
 GitHub Releases からのインストールを推奨します。
 
 1. [Releases](https://github.com/trah01/keepinput/releases) ページを開きます。
-2. 最新の `InputLock-1.3.dmg` をダウンロードします。
-3. DMG を開き、`lockinput.app` を `Applications` にドラッグします。
-4. `Applications` から InputLock を起動します。
+2. 最新の `keepinput-1.3.dmg` をダウンロードします。
+3. DMG を開き、`keepinput.app` を `Applications` にドラッグします。
+4. `Applications` から keepinput を起動します。
 
 パッケージはローカルの ad-hoc 署名を使用し、Apple の公証は行っていません。初回起動がブロックされた場合は、システム設定 > プライバシーとセキュリティで許可してください。このプロジェクトの Releases から入手したことを確認し、アプリを「アプリケーション」に移動した後、次のコマンドも使用できます。
 
 ```bash
-xattr -dr com.apple.quarantine /Applications/lockinput.app
+xattr -dr com.apple.quarantine /Applications/keepinput.app
 ```
 
 その後アプリを開き直してください。別の場所にインストールした場合はパスを変更し、権限不足の場合のみ先頭に `sudo` を付けてください。
@@ -94,14 +94,14 @@ DMG を作成します。
 生成されるファイル:
 
 ```text
-InputLock-1.3.dmg
+keepinput-1.3.dmg
 ```
 
 ## 自動ビルドとリリース
 
 [.github/workflows/release.yml](.github/workflows/release.yml) は `v1.3`、`v1.3.1` などのタグを push すると実行されます。Actions → Build and Release → Run workflow から手動実行も可能で、バージョン番号は `v` の有無を問いません。既存のバージョンではタグのコードを自動的に取得し、インストーラを再ビルドしてアップロードします。
 
-Apple Silicon と Intel 対応のユニバーサルアプリをビルドし、ad-hoc 署名を行い、`InputLock-<バージョン>.dmg` と `.sha256` を GitHub Releases に公開します。アプリのバージョンはタグから `v` を除いた値となり、手動実行では必要に応じてタグを作成します。Apple の証明書は不要で、公証は行いません。
+Apple Silicon と Intel 対応のユニバーサルアプリをビルドし、ad-hoc 署名を行い、`keepinput-<バージョン>.dmg` と `.sha256` を GitHub Releases に公開します。アプリのバージョンはタグから `v` を除いた値となり、手動実行では必要に応じてタグを作成します。Apple の証明書は不要で、公証は行いません。
 
 ## プロジェクト構成
 

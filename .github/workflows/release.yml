@@ -84,12 +84,16 @@ jobs:
           RELEASE_VERSION: ${{ steps.version.outputs.version }}
         run: |
           set -euo pipefail
+          # Apply the current app name when rebuilding older tagged source too.
+          plutil -replace CFBundleName -string keepinput lockinput/Info.plist
+          plutil -replace CFBundleDisplayName -string keepinput lockinput/Info.plist
           xcodebuild -project lockinput.xcodeproj \
             -scheme lockinput -configuration Release \
             -derivedDataPath build \
             -destination 'generic/platform=macOS' \
             ARCHS='arm64 x86_64' ONLY_ACTIVE_ARCH=NO \
             MACOSX_DEPLOYMENT_TARGET=12.0 \
+            PRODUCT_NAME=keepinput \
             MARKETING_VERSION="$RELEASE_VERSION" \
             CURRENT_PROJECT_VERSION="$GITHUB_RUN_NUMBER" \
             CODE_SIGNING_ALLOWED=NO build
@@ -99,10 +103,10 @@ jobs:
           RELEASE_VERSION: ${{ steps.version.outputs.version }}
         run: |
           set -euo pipefail
-          app_path='build/Build/Products/Release/lockinput.app'
+          app_path='build/Build/Products/Release/keepinput.app'
           codesign --force --deep --sign - --timestamp=none "$app_path"
           codesign --verify --deep --strict "$app_path"
-          architectures="$(xcrun lipo -archs "$app_path/Contents/MacOS/lockinput")"
+          architectures="$(xcrun lipo -archs "$app_path/Contents/MacOS/keepinput")"
           for architecture in arm64 x86_64; do
             case " $architectures " in
               *" $architecture "*) ;;
@@ -110,10 +114,10 @@ jobs:
             esac
           done
           mkdir -p dist staging
-          ditto "$app_path" staging/lockinput.app
+          ditto "$app_path" staging/keepinput.app
           ln -s /Applications staging/Applications
-          image_name="InputLock-${RELEASE_VERSION}.dmg"
-          hdiutil create -volname "InputLock ${RELEASE_VERSION}" \
+          image_name="keepinput-${RELEASE_VERSION}.dmg"
+          hdiutil create -volname "keepinput ${RELEASE_VERSION}" \
             -srcfolder staging -format UDZO -ov "dist/$image_name"
           (cd dist && shasum -a 256 "$image_name" > "$image_name.sha256")
 
@@ -125,10 +129,11 @@ jobs:
           RELEASE_VERSION: ${{ steps.version.outputs.version }}
         run: |
           set -euo pipefail
-          image_path="dist/InputLock-${RELEASE_VERSION}.dmg"
+          image_path="dist/keepinput-${RELEASE_VERSION}.dmg"
           if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
             gh release upload "$RELEASE_TAG" "$image_path" "$image_path.sha256" --clobber
+            gh release edit "$RELEASE_TAG" --title "keepinput $RELEASE_TAG"
           else
             gh release create "$RELEASE_TAG" "$image_path" "$image_path.sha256" \
-              --target "$GITHUB_SHA" --title "$RELEASE_TAG" --generate-notes
+              --target "$GITHUB_SHA" --title "keepinput $RELEASE_TAG" --generate-notes
           fi

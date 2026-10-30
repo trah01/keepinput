@@ -1,10 +1,10 @@
-# KeepInput
+# keepinput
 
 README par défaut : [简体中文](README.md)
 
 Autres langues : [English](README.en.md) | Français | [Deutsch](README.de.md) | [日本語](README.ja.md)
 
-InputLock est une application légère pour la barre de menus de macOS. Elle verrouille la méthode de saisie active afin de limiter les changements accidentels lors de la rédaction, du développement ou du passage d'une application à l'autre.
+keepinput est une application légère pour la barre de menus de macOS. Elle verrouille la méthode de saisie active afin de limiter les changements accidentels lors de la rédaction, du développement ou du passage d'une application à l'autre.
 
 ## Fonctionnalités
 
@@ -29,14 +29,14 @@ InputLock est une application légère pour la barre de menus de macOS. Elle ver
 Installation recommandée depuis GitHub Releases :
 
 1. Ouvrez la page [Releases](https://github.com/trah01/keepinput/releases).
-2. Téléchargez le dernier fichier `InputLock-1.3.dmg`.
-3. Ouvrez le DMG et faites glisser `lockinput.app` vers `Applications`.
-4. Lancez InputLock depuis `Applications`.
+2. Téléchargez le dernier fichier `keepinput-1.3.dmg`.
+3. Ouvrez le DMG et faites glisser `keepinput.app` vers `Applications`.
+4. Lancez keepinput depuis `Applications`.
 
 Les paquets utilisent une signature locale ad-hoc, sans notarisation Apple. Si macOS bloque le premier lancement, autorisez l’app dans Réglages Système > Confidentialité et sécurité. Après avoir vérifié que le paquet provient des Releases de ce projet et déplacé l’app dans Applications, vous pouvez aussi exécuter :
 
 ```bash
-xattr -dr com.apple.quarantine /Applications/lockinput.app
+xattr -dr com.apple.quarantine /Applications/keepinput.app
 ```
 
 Ouvrez ensuite l’app. Adaptez le chemin si nécessaire ; ajoutez `sudo` uniquement en cas de refus d’accès.
@@ -94,14 +94,14 @@ Créez le DMG :
 Le fichier généré est :
 
 ```text
-InputLock-1.3.dmg
+keepinput-1.3.dmg
 ```
 
 ## Compilation et publication automatiques
 
 Le workflow [.github/workflows/release.yml](.github/workflows/release.yml) se lance lors de l’envoi d’un tag `v1.3` ou `v1.3.1`, ou depuis Actions → Build and Release → Run workflow. Le lancement manuel accepte un numéro avec ou sans `v`. Pour une version existante, le workflow récupère automatiquement le code du tag pour reconstruire et téléverser le paquet.
 
-Il compile une app universelle Apple Silicon et Intel, applique une signature ad-hoc et publie `InputLock-<version>.dmg` et son fichier `.sha256` dans GitHub Releases. La version de l’app suit le tag sans `v` ; le lancement manuel crée le tag si nécessaire. Aucun certificat Apple n’est requis ; le paquet n’est pas notarié.
+Il compile une app universelle Apple Silicon et Intel, applique une signature ad-hoc et publie `keepinput-<version>.dmg` et son fichier `.sha256` dans GitHub Releases. La version de l’app suit le tag sans `v` ; le lancement manuel crée le tag si nécessaire. Aucun certificat Apple n’est requis ; le paquet n’est pas notarié.
 
 ## Structure du projet
 

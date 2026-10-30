@@ -19,7 +19,7 @@ If `xcodebuild` points at Command Line Tools, switch to full Xcode first:
 sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 ```
 
-Build a Release app into `build/Build/Products/Release/lockinput.app`:
+Build a Release app into `build/Build/Products/Release/keepinput.app`:
 
 ```bash
 xcodebuild -project lockinput.xcodeproj -scheme lockinput -configuration Release -derivedDataPath build clean build
