@@ -33,7 +33,13 @@ Install from GitHub Releases:
 3. Open the DMG and drag `lockinput.app` to `Applications`.
 4. Launch InputLock from `Applications`.
 
-The current release is not Apple-notarized. If macOS blocks the first launch, allow it in System Settings > Privacy & Security, or Control-click the app and choose Open.
+Packages use local ad-hoc signing and are not Apple-notarized. If macOS blocks the first launch, allow the app in System Settings > Privacy & Security. After verifying that the installer came from this project’s Releases and moving the app to Applications, you can also run:
+
+```bash
+xattr -dr com.apple.quarantine /Applications/lockinput.app
+```
+
+Then open the app again. Adjust the path if installed elsewhere; add `sudo` only if permissions are denied.
 
 ## Usage
 
@@ -97,7 +103,7 @@ InputLock-1.3.dmg
 
 ## Automated Builds and Releases
 
-[.github/workflows/release.yml](.github/workflows/release.yml) runs when you push a version tag such as `v1.3` or `v1.3.1`, or choose Actions → Build and Release → Run workflow. Manual runs accept versions with or without `v`; existing tags must point to the selected source.
+[.github/workflows/release.yml](.github/workflows/release.yml) runs when you push a version tag such as `v1.3` or `v1.3.1`, or choose Actions → Build and Release → Run workflow. Manual runs accept versions with or without `v`; existing versions automatically check out their tagged source to rebuild and upload the installer.
 
 The workflow builds a universal Apple Silicon and Intel app, applies ad-hoc signing, and publishes `InputLock-<version>.dmg` and its `.sha256` checksum to the matching GitHub Release. The app version follows the tag without its `v` prefix. Manual releases create the tag if necessary. No Apple developer certificate is required; packages are not notarized.
 

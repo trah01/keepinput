@@ -48,8 +48,8 @@ jobs:
           release_tag="v$release_version"
           existing_commit="$(git rev-parse --verify -q "refs/tags/${release_tag}^{commit}" || true)"
           if [[ -n "$existing_commit" && "$existing_commit" != "$(git rev-parse HEAD)" ]]; then
-            echo 'This version tag already points to different source. Select that tag or use a new version.' >&2
-            exit 1
+            # Rebuild an existing release from its original source using this workflow.
+            git checkout --detach "$existing_commit"
           fi
           echo "version=$release_version" >> "$GITHUB_OUTPUT"
           echo "tag=$release_tag" >> "$GITHUB_OUTPUT"
@@ -94,7 +94,7 @@ jobs:
             CURRENT_PROJECT_VERSION="$GITHUB_RUN_NUMBER" \
             CODE_SIGNING_ALLOWED=NO build
 
-      - name: Sign and package DMG
+      - name: Ad-hoc sign and package DMG
         env:
           RELEASE_VERSION: ${{ steps.version.outputs.version }}
         run: |
@@ -102,7 +102,13 @@ jobs:
           app_path='build/Build/Products/Release/lockinput.app'
           codesign --force --deep --sign - --timestamp=none "$app_path"
           codesign --verify --deep --strict "$app_path"
-          lipo -verify_arch arm64 x86_64 "$app_path/Contents/MacOS/lockinput"
+          architectures="$(xcrun lipo -archs "$app_path/Contents/MacOS/lockinput")"
+          for architecture in arm64 x86_64; do
+            case " $architectures " in
+              *" $architecture "*) ;;
+              *) echo "Missing architecture: $architecture" >&2; exit 1 ;;
+            esac
+          done
           mkdir -p dist staging
           ditto "$app_path" staging/lockinput.app
           ln -s /Applications staging/Applications
