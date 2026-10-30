@@ -1,4 +1,4 @@
-# InputLock
+# KeepInput
 
 README par défaut : [简体中文](README.md)
 

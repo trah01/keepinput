@@ -1,10 +1,12 @@
-# InputLock
+# KeepInput
 
 默认语言：简体中文
 
 其他语言： [English](README.en.md) | [Français](README.fr.md) | [Deutsch](README.de.md) | [日本語](README.ja.md)
 
-InputLock 是一个轻量级 macOS 菜单栏应用，用于锁定当前输入法，减少在写作、编程或跨应用切换时误触切换输入法的问题。
+KeepInput 是一个轻量级 macOS 菜单栏应用，用于锁定当前输入法，减少在写作、编程或跨应用切换时误触切换输入法的问题。
+
+本仓库基于 [bigccc/inputlock](https://github.com/bigccc/inputlock) 进行扩展
 
 ## 现有功能
 
@@ -66,10 +68,6 @@ InputLock 是一个轻量级 macOS 菜单栏应用，用于锁定当前输入法
 ### 检查更新
 
 在设置的“关于”区域点击“检查更新”，发现新版后选择“下载并重启”。请先将应用移出 DMG，放入有写入权限的应用程序文件夹。没有安装包或网络请求失败时，设置页会显示对应提示，也可从项目 Releases 页面手动下载。
-
-## 项目来源
-
-本仓库基于 [bigccc/inputlock](https://github.com/bigccc/inputlock) 持续开发。
 
 ## 从源码运行
 

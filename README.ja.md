@@ -1,4 +1,4 @@
-# InputLock
+# KeepInput
 
 既定の README: [简体中文](README.md)
 
