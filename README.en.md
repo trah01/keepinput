@@ -16,7 +16,7 @@ keepinput is a lightweight macOS menu bar app that locks the current input metho
 - Left-click opens the input source panel; right-click opens quick actions
 - Supports English, 简体中文, Français, Deutsch, and 日本語
 - Reads the actual system login-item status and restores the last lock after restart
-- Pauses enforcement during secure password input and resumes afterward
+- Lets macOS decide whether input source selection is allowed, including in apps using secure keyboard entry
 - Checks GitHub Releases for updates and downloads, installs, and restarts from Settings
 
 ## Requirements

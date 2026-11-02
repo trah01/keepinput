@@ -120,8 +120,8 @@ class InputMethodManager: ObservableObject {
 
     @discardableResult
     func selectInputSource(_ source: TISInputSource) -> Bool {
-        // Let macOS control the keyboard layout while a secure field is active.
-        guard !IsSecureEventInputEnabled() else { return false }
+        // Secure event input also covers apps such as terminals; it does not
+        // imply that input source selection is forbidden. Let TIS decide.
         let result = TISSelectInputSource(source)
         updateCurrentInputSourceName()
         return result == noErr
@@ -135,7 +135,7 @@ class InputMethodManager: ObservableObject {
     }
 
     func lockInputSource(_ source: TISInputSource) {
-        selectInputSource(source)
+        guard selectInputSource(source) else { return }
         lock(source: source)
         updateCurrentInputSourceName()
         enforceLockedInputSource()
@@ -169,28 +169,23 @@ class InputMethodManager: ObservableObject {
             return
         }
 
-        isTemporarilyActive = true
-        temporaryInputTimer?.invalidate()
-
-        let temporarySourceID = getInputSourceID(temporarySource)
-        temporaryInputSourceID = temporarySourceID
-        if getCurrentInputSource().map(getInputSourceID) != temporarySourceID {
-            _ = selectInputSource(temporarySource)
-        }
-
-        scheduleTemporaryInputRestoreCheck(after: idleRestoreInterval)
+        selectOrTemporarilySwitchToInputSource(temporarySource)
     }
 
     func selectOrTemporarilySwitchToInputSource(_ source: TISInputSource) {
         let sourceID = getInputSourceID(source)
+        guard !sourceID.isEmpty else { return }
         
         if isLocked {
             isTemporarilyActive = true
             temporaryInputTimer?.invalidate()
             temporaryInputSourceID = sourceID
             
-            if getCurrentInputSource().map(getInputSourceID) != sourceID {
-                _ = selectInputSource(source)
+            if getCurrentInputSource().map(getInputSourceID) != sourceID,
+               !selectInputSource(source) {
+                stopTemporaryInputMode()
+                enforceLockedInputSource()
+                return
             }
             
             scheduleTemporaryInputRestoreCheck(after: idleRestoreInterval)
@@ -252,6 +247,7 @@ class InputMethodManager: ObservableObject {
         let sourceID = getInputSourceID(source)
         guard !sourceID.isEmpty else { return }
 
+        stopTemporaryInputMode()
         lockState.lock(inputSourceID: sourceID)
         UserDefaults.standard.set(sourceID, forKey: DefaultsKey.previousLockedInputSourceID)
         syncPublishedLockState()
@@ -302,7 +298,7 @@ class InputMethodManager: ObservableObject {
 
     private func enforceLockedInputSource() {
         guard lockState.isLocked, !isEnforcingLockedSource else { return }
-        guard !isTemporarilyActive, !IsSecureEventInputEnabled() else { return }
+        guard !isTemporarilyActive else { return }
         guard let lockedInputSourceID = lockState.lockedInputSourceID else { return }
         guard let currentSource = getCurrentInputSource() else { return }
         guard let lockedSource = inputSource(withID: lockedInputSourceID) else { return }
@@ -345,8 +341,7 @@ class InputMethodManager: ObservableObject {
             guard let self else { return }
             defer { self.isEnforcingLockedSource = false }
             guard self.lockState.matchesLockedInputSourceID(lockedInputSourceID),
-                  !self.isTemporarilyActive,
-                  !IsSecureEventInputEnabled() else { return }
+                  !self.isTemporarilyActive else { return }
 
             if !self.selectInputSource(source),
                let refreshedSource = self.inputSource(withID: sourceID) {
